@@ -19,12 +19,16 @@ module ArticlesDel.Types
     , EditathonId
     , Article(..)
     , ArticleId
+    , EditathonArticle(..)
+    , EditathonArticleId
     , Edit(..)
     , EditId
     , EditorAction(..)
     , EditorActionId
     , WikiEditor(..)
     , WikiEditorId
+    , EditathonParticipant(..)
+    , EditathonParticipantId
     , Discussion(..)
     , DiscussionId
 

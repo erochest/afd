@@ -1,7 +1,7 @@
 Editathon json
     name Text
     date UTCTime
-    deriving Show Eq Data Typeable Generic
+    deriving Show Eq Typeable Generic
 
 Article json
     title Text
@@ -17,28 +17,43 @@ Article json
     comments Text Maybe
     deriving Show Eq Typeable Generic
 
+EditathonArticle json
+    editathonId EditathonId
+    articleId ArticleId
+    UniqueEditathonArticle editathonId articleId
+    deriving Show Eq Typeable Generic
+
 Edit json
     date UTCTime
+    articleId ArticleId
     content Text
     category EditCategory
     comments Text Maybe
-    deriving Show Eq Data Typeable Generic
+    deriving Show Eq Typeable Generic
 
 EditorAction json
     date UTCTime
     url Text
+    editorId WikiEditorId
     category ActionCategory
     status ActionStatus
     summary Text Maybe
-    deriving Show Eq Data Typeable Generic
+    deriving Show Eq Typeable Generic
 
 WikiEditor json
     username Text
     isAdmin Bool
     joinedDate UTCTime
-    deriving Show Eq Data Typeable Generic
+    deriving Show Eq Typeable Generic
+
+EditathonParticipant json
+    editathonId EditathonId
+    participantId WikiEditorId
+    UniqueEditathonParicipant editathonId participantId
+    deriving Show Eq Typeable Generic
 
 Discussion json
     date UTCTime
+    authorId WikiEditorId
     content Text
-    deriving Show Eq Data Typeable Generic
+    deriving Show Eq Typeable Generic

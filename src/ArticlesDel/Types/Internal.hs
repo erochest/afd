@@ -52,8 +52,11 @@ instance FromJSON ActionCategory
 instance ToJSON ActionCategory
 
 data ActionStatus
-    = ProposedAction
-    | CompletedAction
+    = KeepAsIsAction
+    | KeepModifyAction
+    | MergeAction
+    | DeleteAction
+    | SandboxAction
     deriving (Show, Read, Eq, Data, Typeable, Generic)
 derivePersistField "ActionStatus"
 
