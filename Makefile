@@ -10,7 +10,8 @@ stack.yaml:
 	stack init --prefer-nightly
 
 run: build
-	$(RUN) --help
+	-rm test.sqlite3
+	$(RUN) init --db-file test.sqlite3
 
 docs:
 	stack haddock

@@ -7,21 +7,27 @@ license-file:        LICENSE
 author:              Eric Rochester
 maintainer:          erochest@gmail.com
 -- copyright:           2016 Eric Rochester
--- category:            
+-- category:
 build-type:          Simple
--- extra-source-files:  
+-- extra-source-files:
 cabal-version:       >=1.10
 
 library
-  exposed-modules:     ArticlesDel.Actions.Default
+  exposed-modules:     ArticlesDel.Actions.Init
                      , ArticlesDel.Types
-  -- other-modules:       
-  -- other-extensions:    
+  other-modules:       ArticlesDel.Types.Internal
+  -- other-extensions:
   build-depends:       base >=4.8 && <4.9
+                     , aeson
                      , errors
                      , lens
+                     , persistent
+                     , persistent-sqlite
+                     , persistent-template
                      , text
                      , text-format
+                     , time
+                     , transformers
   hs-source-dirs:      src
   default-language:    Haskell2010
 
@@ -30,7 +36,7 @@ executable afd
   other-modules:       Actions
                      , Opts
                      , Types
-  -- other-extensions:    
+  -- other-extensions:
   build-depends:       base >=4.8 && <5
                      , afd
                      , errors
@@ -68,7 +74,7 @@ benchmark afd-bench
                        -rtsopts
   hs-source-dirs:      bench
   main-is:             Bench.hs
-  -- other-modules:         
+  -- other-modules:
   build-depends:         base
                        , afd
                        , criterion

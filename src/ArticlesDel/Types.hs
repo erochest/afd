@@ -1,19 +1,48 @@
--- {-# LANGUAGE DeriveDataTypeable         #-}
--- {-# LANGUAGE DeriveFunctor              #-}
--- {-# LANGUAGE DeriveGeneric              #-}
--- {-# LANGUAGE DeriveTraversable          #-}
--- {-# LANGUAGE GeneralizedNewtypeDeriving #-}
--- {-# LANGUAGE OverloadedLists            #-}
--- {-# LANGUAGE OverloadedStrings          #-}
--- {-# LANGUAGE RankNTypes                 #-}
--- {-# LANGUAGE RecordWildCards            #-}
--- {-# LANGUAGE TemplateHaskell            #-}
+{-# LANGUAGE DeriveDataTypeable         #-}
+{-# LANGUAGE DeriveGeneric              #-}
+{-# LANGUAGE EmptyDataDecls             #-}
+{-# LANGUAGE FlexibleContexts           #-}
+{-# LANGUAGE FlexibleInstances          #-}
+{-# LANGUAGE GADTs                      #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE MultiParamTypeClasses      #-}
+{-# LANGUAGE OverloadedStrings          #-}
+{-# LANGUAGE QuasiQuotes                #-}
+{-# LANGUAGE TemplateHaskell            #-}
+{-# LANGUAGE TypeFamilies               #-}
 
 
-module ArticlesDel.Types where
+module ArticlesDel.Types
+    ( migrateAll
+
+    , Editathon(..)
+    , EditathonId
+    , Article(..)
+    , ArticleId
+    , Edit(..)
+    , EditId
+    , EditorAction(..)
+    , EditorActionId
+    , WikiEditor(..)
+    , WikiEditorId
+    , Discussion(..)
+    , DiscussionId
+
+    , module X
+    ) where
 
 
--- import           Control.Lens
--- import           Data.Data
--- import qualified Data.Text              as T
--- import           GHC.Generics           hiding (to)
+import           Data.Data
+import           Data.Text                  (Text)
+import           Data.Time
+import           Database.Persist.Quasi
+import           Database.Persist.TH
+import           GHC.Generics
+
+import           ArticlesDel.Types.Internal
+
+import qualified ArticlesDel.Types.Internal as X
+
+
+share [mkPersist sqlSettings, mkMigrate "migrateAll"]
+    $(persistFileWith lowerCaseSettings "config/models")

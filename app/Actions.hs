@@ -8,11 +8,11 @@ module Actions where
 
 import           Control.Error
 
-import           ArticlesDel.Actions.Default
+import           ArticlesDel.Actions.Init
 
 import           Types
 
 
 action :: Actions -> Script ()
 
-action Default{..} = defaultAction defaultInput defaultOutput
+action Init{..} = initAction initDbFile

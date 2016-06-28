@@ -1,11 +1,10 @@
 module Types where
 
 
--- import           ArticlesDel.Types
+import qualified Data.Text as T
 
 
 data Actions
-        = Default { defaultOutput :: !FilePath
-                  , defaultInput  :: !FilePath
-                  }
+        = Init { initDbFile :: !T.Text
+               }
         deriving (Show, Eq)
