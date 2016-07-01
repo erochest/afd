@@ -4,13 +4,15 @@ Editathon json
     deriving Show Eq Typeable Generic
 
 Article json
+    wikiId Int
     title Text
     url Text
     gender Text Maybe
     sexuality Text Maybe
     race Text Maybe
     category ArticleCategory
-    creatorId WikiEditorId
+    creatorId ContributorId
+    currentRevisionId RevisionId
     traffic Int Maybe
     lastChecked UTCTime
     status ArticleStatus
@@ -23,7 +25,9 @@ EditathonArticle json
     UniqueEditathonArticle editathonId articleId
     deriving Show Eq Typeable Generic
 
-Edit json
+Revision json
+    wikiId Int
+    parentRevisionId RevisionId
     date UTCTime
     articleId ArticleId
     content Text
@@ -34,13 +38,14 @@ Edit json
 EditorAction json
     date UTCTime
     url Text
-    editorId WikiEditorId
+    editorId ContributorId
     category ActionCategory
     status ActionStatus
     summary Text Maybe
     deriving Show Eq Typeable Generic
 
-WikiEditor json
+Contributor json
+    userId Int
     username Text
     isAdmin Bool
     joinedDate UTCTime
@@ -48,12 +53,12 @@ WikiEditor json
 
 EditathonParticipant json
     editathonId EditathonId
-    participantId WikiEditorId
+    participantId ContributorId
     UniqueEditathonParicipant editathonId participantId
     deriving Show Eq Typeable Generic
 
 Discussion json
     date UTCTime
-    authorId WikiEditorId
+    authorId ContributorId
     content Text
     deriving Show Eq Typeable Generic

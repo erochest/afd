@@ -21,12 +21,12 @@ module ArticlesDel.Types
     , ArticleId
     , EditathonArticle(..)
     , EditathonArticleId
-    , Edit(..)
-    , EditId
+    , Revision(..)
+    , RevisionId
     , EditorAction(..)
     , EditorActionId
-    , WikiEditor(..)
-    , WikiEditorId
+    , Contributor(..)
+    , ContributorId
     , EditathonParticipant(..)
     , EditathonParticipantId
     , Discussion(..)
