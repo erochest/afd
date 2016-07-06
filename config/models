@@ -6,6 +6,7 @@ Editathon json
 Article json
     wikiId Int
     title Text
+    url Text
     gender Text Maybe
     sexuality Text Maybe
     race Text Maybe

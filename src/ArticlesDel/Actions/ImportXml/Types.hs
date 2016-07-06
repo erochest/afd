@@ -78,6 +78,7 @@ $(makeClassy ''PageInfo)
 data State
     = S { _sState       :: !(StateNode State)
         , _sUsers       :: !UserIndex
+        , _sPageCount   :: !Int
         , _sPage        :: !(Maybe PageInfo)
         , _sRevision    :: !(Maybe RevisionInfo)
         , _sContributor :: !(Maybe ContributorInfo)
