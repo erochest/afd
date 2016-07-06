@@ -8,6 +8,7 @@ module Actions where
 
 import           Control.Error
 
+import           ArticlesDel.Actions.ImportXml
 import           ArticlesDel.Actions.Init
 
 import           Types
@@ -15,4 +16,5 @@ import           Types
 
 action :: Actions -> Script ()
 
-action Init{..} = initAction initDbFile
+action Init{..}      = initAction initDbFile
+action ImportXml{..} = importXml xmlDbFile xmlFile

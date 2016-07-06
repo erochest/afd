@@ -6,13 +6,11 @@ Editathon json
 Article json
     wikiId Int
     title Text
-    url Text
     gender Text Maybe
     sexuality Text Maybe
     race Text Maybe
-    category ArticleCategory
-    creatorId ContributorId
-    currentRevisionId RevisionId
+    category ArticleCategory Maybe
+    creatorId ContributorId Maybe
     traffic Int Maybe
     lastChecked UTCTime
     status ArticleStatus
@@ -27,11 +25,10 @@ EditathonArticle json
 
 Revision json
     wikiId Int
-    parentRevisionId RevisionId
+    parentRevisionId RevisionId Maybe
     date UTCTime
     articleId ArticleId
-    content Text
-    category EditCategory
+    category EditCategory Maybe
     comments Text Maybe
     deriving Show Eq Typeable Generic
 
@@ -48,7 +45,7 @@ Contributor json
     userId Int
     username Text
     isAdmin Bool
-    joinedDate UTCTime
+    joinedDate UTCTime Maybe
     deriving Show Eq Typeable Generic
 
 EditathonParticipant json

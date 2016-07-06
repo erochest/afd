@@ -1,4 +1,6 @@
 
+CORPUS=$(HOME)/d/wikipedia/enwiki-20160601-pages-articles-multistream.xml.bz2
+
 # BUILD_FLAGS=--pedantic --library-profiling --executable-profiling
 BUILD_FLAGS=--pedantic
 
@@ -11,7 +13,7 @@ stack.yaml:
 
 run: build
 	-rm test.sqlite3
-	$(RUN) init --db-file test.sqlite3
+	pv $(CORPUS) | bzcat | $(RUN) import-xml --db-file test.sqlite3
 
 docs:
 	stack haddock
