@@ -64,19 +64,19 @@ step s@(S SMStart _ _ _ _ _) _ = return s
 
 step s@(S SMPage _ _ _ _ _) (EventEndElement "page") = do
     let page = s ^. sPage
-        rev  = s ^. sRevision
     now <- liftIO getCurrentTime
     void . runMaybeT $ do
-        pId   <- hoistMaybe $ view pWikiId =<< page
-        title <- hoistMaybe $ view pTitle  =<< page
-        rId   <- hoistMaybe $ view rWikiId =<< rev
-        date  <- hoistMaybe $ view rDate   =<< rev
+        pId   <- hoistMaybe $ view pWikiId   =<< page
+        title <- hoistMaybe $ view pTitle    =<< page
+        rev   <- hoistMaybe $ view pRevision =<< page
+        rId   <- rev ^.? rWikiId
+        date  <- rev ^.? rDate
         let url = "https://en.wikipedia.org/wiki/" <> T.map cleanChar title
         aId   <- lift . insert $ Article pId title url Nothing Nothing Nothing
                                     Nothing Nothing Nothing now Published
                                     Nothing
-        void . lift . insert $ Revision rId Nothing date aId Nothing
-                                    (view rComment =<< rev)
+        void . lift . insert . Revision rId Nothing date aId Nothing $
+                                    rev ^. rComment
         when ((s ^. sPageCount + 1) `rem` 10000 == 0) $
            lift transactionSave
     return $ s & sState     .~ SMStart
@@ -118,15 +118,16 @@ step s@(S SMRevision _ _ _ _ _) _ =
     return s
 
 step s@(S SMContributor _ _ _ _ _) (EventEndElement "contributor") = do
-    (userIndex, mCID) <- fmap (fromMaybe (s ^. sUsers, Nothing)) . runMaybeT $ do
-        contrib <- hoistMaybe $ s ^. sContributor
-        name    <- hoistMaybe $ _cName   contrib
-        wid     <- hoistMaybe $ _cWikiId contrib
-        case M.lookup name (s ^. sUsers) of
-             Just cid -> return (s ^. sUsers, Just cid)
+    let uindex = s ^. sUsers
+    (userIndex, mCID) <- fmap (fromMaybe (uindex, Nothing)) . runMaybeT $ do
+        contrib <- s ^.? sContributor
+        name    <- contrib ^.? cName
+        wid     <- contrib ^.? cWikiId
+        case M.lookup name uindex of
+             Just cid -> return (uindex, Just cid)
              Nothing  -> do
-                 cid <- lift . insert $  Contributor wid name False Nothing
-                 return (M.insert name cid $ s ^. sUsers, Just cid)
+                 cid <- lift . insert $ Contributor wid name False Nothing
+                 return (M.insert name cid uindex, Just cid)
     return $ s
            & sState .~ SMRevision
            & sUsers .~ userIndex
@@ -157,4 +158,7 @@ getId :: forall s a b. Integral b
       => StateNode s -> ASetter s s a (Maybe b) -> StateNode s
 getId returnState l =
     SMText "id" Seq.empty returnState (set l . hush . decimalE)
+
+(^.?) :: Monad m => s -> Lens' s (Maybe a) -> MaybeT m a
+s ^.? a = hoistMaybe $ s ^. a
 
