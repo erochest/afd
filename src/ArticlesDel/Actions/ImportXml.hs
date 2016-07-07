@@ -12,7 +12,6 @@ import           Conduit
 import           Control.Error
 import           Control.Lens                        hiding ((|>))
 import           Control.Monad                       (void, when)
-import qualified Data.ByteString                     as BS
 import           Data.Char                           (isAlphaNum)
 import           Data.Foldable
 import qualified Data.HashMap.Strict                 as M
@@ -23,7 +22,6 @@ import qualified Data.Text                           as T
 import           Data.Time
 import           Data.XML.Types
 import           Database.Persist.Sqlite             hiding (cName)
-import           Text.XML.Stream.Parse
 
 import           ArticlesDel.Actions.ImportXml.Types
 import           ArticlesDel.Types
@@ -42,13 +40,8 @@ importXml dbFile inputFile = runSqlite dbFile $ do
 
 walkXml :: (MonadBaseControl IO m, MonadIO m, MonadThrow m)
         => Maybe FilePath -> ImportXmlT m State
-walkXml inputFile =
-    input =$ parseBytes def $$ foldMC step start
+walkXml inputFile = xmlInput inputFile $$ foldMC step start
     where
-        input :: (MonadThrow m, MonadIO m, MonadBase IO m)
-              => Producer (ImportXmlT m) BS.ByteString
-        input = maybe stdinC sourceFile inputFile
-
         start = S SMStart M.empty 0 Nothing Nothing Nothing
 
 cleanChar :: Char -> Char
