@@ -10,4 +10,7 @@ data Actions
         | ImportXml { xmlDbFile :: !T.Text
                     , xmlFile   :: !(Maybe FilePath)
                     }
+        | SampleXml { sampleN :: !Int
+                    , xmlFile :: !(Maybe FilePath)
+                    }
         deriving (Show, Eq)

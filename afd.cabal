@@ -15,9 +15,11 @@ cabal-version:       >=1.10
 library
   exposed-modules:     ArticlesDel.Actions.ImportXml
                      , ArticlesDel.Actions.Init
+                     , ArticlesDel.Actions.SampleXml
                      , ArticlesDel.Types
                      , ArticlesDel.Utils
   other-modules:       ArticlesDel.Actions.ImportXml.Types
+                     , ArticlesDel.Actions.SampleXml.Types
                      , ArticlesDel.Types.Internal
   -- other-extensions:
   build-depends:       base >=4.8 && <4.9
@@ -32,9 +34,11 @@ library
                      , foldl
                      , lens
                      , monad-logger
+                     , mwc-random
                      , persistent
                      , persistent-sqlite
                      , persistent-template
+                     , primitive
                      , text
                      , text-format
                      , time

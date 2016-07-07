@@ -28,23 +28,37 @@ dbFileOpt =
 initOpts :: Parser Actions
 initOpts = Init <$> dbFileOpt
 
-xmlOpts :: Parser Actions
-xmlOpts =   ImportXml
+importXmlOpts :: Parser Actions
+importXmlOpts =
+    ImportXml
         <$> dbFileOpt
         <*> optional (strOption (  short 'i' <> long "input-file"
                                 <> metavar "INPUT_FILE"
                                 <> help "The input XML file. Omitting this\
-                                        \ or passing it the value '-' will\
-                                        \ read from STDIN."))
+                                        \ will read from STDIN."))
+
+sampleXmlOpts :: Parser Actions
+sampleXmlOpts =
+    SampleXml
+        <$> option auto (  short 'n' <> long "n" <> metavar "N" <> value 1000
+                        <> help "The number of pages to include in the sample.\
+                                \ Default is 1000.")
+        <*> optional (strOption (  short 'i' <> long "input-file"
+                                <> metavar "INPUT_FILE"
+                                <> help "The input XML file. Omitting this\
+                                        \ will read from STDIN."))
 
 opts' :: Parser Actions
 opts' = subparser
       (  command "init" (info (helper <*> initOpts)
                           (progDesc "Initialize a database for importing the\
                                     \ data."))
-      <> command "import-xml" (info (helper <*> xmlOpts)
+      <> command "import-xml" (info (helper <*> importXmlOpts)
                                 (progDesc "Import a database dump XML file\
                                           \ into the database."))
+      <> command "sample-xml" (info (helper <*> sampleXmlOpts)
+                                (progDesc "Sample a database dump XML file\
+                                          \ for testing."))
       )
 
 opts :: ParserInfo Actions
