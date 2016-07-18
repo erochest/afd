@@ -75,7 +75,9 @@ flushSample e s =   ( s & sSample .~ uncurry sampleInit (s ^. sSampleState)
                         & sAccum  .~ Nothing
                     ,
                     )
-                .   foldr ((++) . toList) [e]
+                .   toList
+                .   (|> e)
+                .   mconcat
                 <$> sampleDone (s ^. sSample)
 
 startTag :: Event -> SampleState -> IO (SampleState, [Event])
