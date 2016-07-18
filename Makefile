@@ -20,6 +20,9 @@ samples/sample-$(SAMPLE).xml: build
 	-mkdir -p samples
 	pv $(CORPUS) | bzcat | $(RUN) sample-xml --n $(SAMPLE) > $@
 
+view:
+	bzcat $(CORPUS) | less
+
 docs:
 	stack haddock
 	open `stack path --local-doc-root`/index.html
