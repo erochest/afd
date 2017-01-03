@@ -22,5 +22,5 @@ decimalE x = case decimal x of
 xmlInput :: MonadResource m => Maybe FilePath -> Producer m Event
 xmlInput inputFile = input =$ parseBytes def
     where
-        input :: (MonadIO m, MonadResource m) => Producer m BS.ByteString
+        input :: MonadResource m => Producer m BS.ByteString
         input = maybe stdinC sourceFile inputFile

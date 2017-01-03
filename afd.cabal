@@ -22,7 +22,7 @@ library
                      , ArticlesDel.Actions.SampleXml.Types
                      , ArticlesDel.Types.Internal
   -- other-extensions:
-  build-depends:       base >=4.8 && <4.9
+  build-depends:       base >=4.8 && <4.10
                      , aeson
                      , bifunctors
                      , bytestring
